@@ -7,7 +7,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 export default function RegisterScreen() {
   return (
     <KeyboardAwareScrollView>
-        <Image source={require("../../assets/imagenes/skillet.jpg")} style={styles.logo} />
+        <Image source={require("../../assets/imagenes/logo.jpg")} style={styles.logo} />
       <View style={styles.viewForm}>
         <RegisterForm/>
       </View>

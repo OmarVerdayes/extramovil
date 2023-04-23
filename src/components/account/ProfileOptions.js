@@ -3,21 +3,27 @@ import React, { useState } from "react";
 import { Button, Icon, ListItem } from "react-native-elements";
 import { map } from "lodash";
 import Modal from "../common/Modal";
+import ChangeNameForm from "./ChangeNameForm";
+import ChangePasswordForm from "./ChangePasswordForm";
+import ChangeEmailForm from "./ChangeEmailForm";
 
-export default function ProfileOptions() {
+export default function ProfileOptions(props) {
   const [contained, setContained] = useState(null);
+  const { onReload } = props;
 
-  const openClose = () => {
+  const onClose = () => {
     setShowModal((prevState) => !prevState);
   };
 
   const selectComponent = (key) => {
     if (key === "displayName") {
-      setContained(<Text>Componente para nombre</Text>);
+      setContained(<ChangeNameForm close={onClose} onReload={onReload} />);
     } else if (key === "password") {
-      setContained(<Text>Componente para contraseña</Text>);
+      setContained(<ChangePasswordForm close={onClose} />);
+    } else if (key === "correo") {
+      setContained(<ChangeEmailForm close={onClose} onReload={onReload} />);
     }
-    openClose();
+    onClose();
   };
   const optionsMenu = getOptionsMenu(selectComponent);
   const [showModal, setShowModal] = useState(false);
@@ -40,7 +46,7 @@ export default function ProfileOptions() {
           />
         </ListItem>
       ))}
-      <Modal visible={showModal} close={openClose}>
+      <Modal visible={showModal} close={onClose}>
         {contained}
       </Modal>
     </View>
@@ -53,7 +59,7 @@ function getOptionsMenu(selectComponent) {
   return [
     {
       title: "Cambiar nombre",
-      typeIcon: "material-comunity",
+      typeIcon: "material-community",
       nameIconLeft: "account-circle",
       colorIcon: "#ccc",
       nameIconRight: "chevron-right",
@@ -63,12 +69,22 @@ function getOptionsMenu(selectComponent) {
     },
     {
       title: "Cambiar contraseña",
-      typeIcon: "material-comunity",
+      typeIcon: "material-community",
       nameIconLeft: "lock-reset",
       colorIcon: "#ccc",
       nameIconRight: "chevron-right",
       onPress: () => {
         selectComponent("password");
+      },
+    },
+    {
+      title: "Cambiar correo",
+      typeIcon: "material-community",
+      nameIconLeft: "at",
+      colorIcon: "#ccc",
+      nameIconRight: "chevron-right",
+      onPress: () => {
+        selectComponent("correo");
       },
     },
   ];

@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { Button } from "react-native-elements";
-import { getAuth, signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import ProfileInfo from "../components/account/ProfileInfo";
 import Loading from "../components/common/Loading";
@@ -10,15 +9,17 @@ import ProfileOptions from "../components/account/ProfileOptions";
 export default function ProfileScreen() {
   const [visibleLoading, setVisiblLoading] = useState(false);
   const [textLoading, setTextLoading] = useState("");
-  const onclose=()=>{
+  const onclose = () => {
     //console.log("cerrando");
-  }
+  };
+  const [reload, setReload] = useState(false);
+
+  const onReload = () => setReload((prevState) => !prevState);
 
   const navigation = useNavigation();
-  const cerrarSesion = async () => {
-    const auth = getAuth();
-    //console.log(auth);
-    await signOut(auth); //elimina la sesion
+  const cerrarSesion = /*async*/ () => {
+    console.log("cerrar sesion-----");
+    //await signOut(auth); //elimina la sesion
     navigation.navigate("index", { screen: "index" });
   };
   return (
@@ -27,7 +28,7 @@ export default function ProfileScreen() {
         setTextLoading={setTextLoading}
         setVisiblLoading={setVisiblLoading}
       />
-      <ProfileOptions />
+      <ProfileOptions onReload={onReload} />
       <Button
         title={"Cerrar sesión"}
         onPress={cerrarSesion}
@@ -41,7 +42,7 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#fff",
+    backgroundColor: "red",
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderTopColor: "#e3e3e3",
@@ -50,8 +51,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: "center",
     paddingVertical: 10,
+    borderRadius: 10,
   },
   title: {
-    color: "#0D5BD7",
+    color: "#fff",
   },
 });

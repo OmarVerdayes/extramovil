@@ -12,7 +12,7 @@ export default function LoginScreen() {
   }
   return (
     <View>
-      <Image source={require('../../assets/imagenes/skillet.jpg')} style={styles.logo}/>
+      <Image source={require('../../assets/imagenes/logo.jpg')} style={styles.logo}/>
       <View style={styles.contentForm}>
         <LoginForm/>
         <Text style={styles.text}>¿Aún no tienes cuenta?<Text style={styles.textBtn} onPress={irAregistro}>{" "}Registrate</Text></Text>

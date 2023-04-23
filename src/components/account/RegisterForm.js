@@ -3,12 +3,13 @@ import React ,{useState} from 'react'
 import { Input,Button,Icon } from 'react-native-elements'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import { getAuth,createUserWithEmailAndPassword } from 'firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import Toast  from 'react-native-toast-message'
+import axios from 'axios';
+import{baseURL} from "../../utils/BaseURL"
+
 export default function RegisterForm() {
   const navigation=useNavigation();
-
   const[password,setPassword]=useState(false);
   const[rpassword,setrpassword]=useState(false);
   const formik = useFormik({
@@ -25,11 +26,28 @@ export default function RegisterForm() {
     validateOnChange:false,
     onSubmit: async(formValue)=>{
       try {
-        const auth= getAuth();
-        await createUserWithEmailAndPassword(auth,formValue.email, formValue.password);
+        //const response = await axios.get(baseURL,'users/');
+        const URL=baseURL+"users/"
+        console.log("enviando solucitud de consulta.....")
+        const response = await fetch(URL,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }/*,
+            body:{
+              email:formValue.email,
+              password:formValue.password
+            }*/
+          }
+        );
+        Toast.show({
+          type:'success',
+          position:'bottom',
+          text1:"Exito!",
+          text2:"usuario añadido correctmente"
+      })
         navigation.navigate("index");
       } catch (error) {
-        //console.log(error);
+        console.log(error,"error de registro")
         Toast.show({
           type:"error",
           position:"bottom",
